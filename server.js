@@ -3,12 +3,10 @@ var express = require('express'),
     port = process.env.PORT || 3000,
     bodyParser = require('body-parser'),
     session = require('express-session'),
-    env = require('dotenv').load(),
+    cors = require('cors'),
     controller = require('./controller');
 
-app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

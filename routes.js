@@ -14,6 +14,10 @@ module.exports = function(app) {
         .put(todoList.updateUsers);  
     app.route('/users')
         .delete(todoList.deleteUsers);
-    app.post('/auth')
+    app.route('/login')
     	.post(todoList.authUsers);
+    app.route('/register')
+    	.post(todoList.register);
+    app.route('/profile')
+    	.get(todoList.profile);
 };
