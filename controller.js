@@ -22,7 +22,7 @@ exports.findUsers = function(req, res) {
     [ user_id ], 
     function (error, rows, fields){
         if(error){
-            console.log(error)
+        	return res.send({ error: false, data: results, message: 'users list.' });
         } else{
             response.ok(rows, res)
         }
@@ -70,3 +70,9 @@ exports.deleteUsers = function(req, res) {
         }
     });
 };
+
+exports.authUsers = function(req, res){
+	var username = req.body.username;
+	var password = req.body.password;
+	response.ok("Berhasil menghapus user!", res)
+}
