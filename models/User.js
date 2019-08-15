@@ -30,3 +30,9 @@ module.exports = db.sequelize.define(
     timestamps: false
   }
 )
+
+db.sequelize.sync()
+  .then(() => console.log('‘Oh yeah! User table created successfully’'))
+  .catch(err => console.log('‘BTW, did you enter wrong database credentials?’'));
+
+  

@@ -39,6 +39,7 @@ exports.findUsers = function(req, res) {
     });
 };
 
+
 exports.createUsers = function(req, res) {
     var first_name = req.body.first_name;
     var last_name = req.body.last_name;
@@ -104,8 +105,11 @@ exports.authUsers = function(req, res){
     })
 }
 
+/** Kode ini digunakan untuk Registrasi User ,
+ jika ada perubahan bisa lakukan pada Kode ini */
 exports.register = function(req, res){
   const today = new Date()
+  console.log(req.body.email)
   const userData = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -126,14 +130,20 @@ exports.register = function(req, res){
           userData.password = hash
           User.create(userData)
             .then(user => {
-              res.json({ status: user.email + 'Registered!' })
+              res.json({ status: 200,
+                         description : user.email + ' success , menunggu konfirmasi admin',
+                         msgCode : 'success' 
+                          })
             })
             .catch(err => {
               res.send('error: ' + err)
             })
         })
       } else {
-        res.json({ error: 'User already exists' })
+             res.json({ status: 200,
+                         description : 'User already exist',
+                         msgCode : 'danger'
+                          })
       }
     })
     .catch(err => {
@@ -160,3 +170,16 @@ exports.profile = function(req, res){
       res.send('error: ' + err)
     })
 }
+
+exports.createUser = async ({ name, password }) => { 
+  return await User.create({ name, password });
+};
+
+exports.getAllUsers = async () => {
+  return await User.findAll();
+};
+exports.getUser = async (obj) => {
+    return await User.findOne({
+    where: obj,
+  });
+};
