@@ -41,8 +41,7 @@ module.exports = function(app) {
     //     .delete(todoList.deleteUsers);
     // app.route('/login')
     // 	.post(todoList.authUsers);
-    app.route('/register')
-    	.post(todoList.register);
+
     // app.route('/profile')
     // 	.get(todoList.profile);
     // app.get('/userss', function(req, res) {
@@ -57,12 +56,31 @@ module.exports = function(app) {
     // app.get('/protected', passport.authenticate('jwt', { session: false }), function(req, res) {
     //     res.json({ msg: 'Congrats! You are seeing this because you are authorized'});
     // });
+    app.delete('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        let user = await todoList.deleteUser(req.body.id).then(user => res.json(user)); 
+    });
+    app.put('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        let user = await todoList.updateUser({req}).then(user => res.json(user)); 
+    });
+    app.route('/register')
+      .post(todoList.register);
+
+    app.get('/user', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        todoList.getAllUsers().then(user => res.json(user)); 
+    });
+
     app.post('/getUser', passport.authenticate('jwt', { session: false }), async function(req, res) {
         const { email } = req.body;
         let user = await todoList.getUser({ email });
         res.json({ user });
     });
-    
+
+    app.post('/user/createtime', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        const { start, end } = req.body;
+        let user = await todoList.getUserByDate({ start, end });
+        res.json({ user });
+    });
+
     app.post('/login', async function(req, res, next) { 
       const { email, password } = req.body;
 
@@ -77,7 +95,7 @@ module.exports = function(app) {
                   // from now on we'll identify the user by the id and the id is// the only personalized value that goes into our token
                   let payload = { id: user.id };
                   let token = jwt.sign(payload, process.env.SECRET_KEY, {
-                    expiresIn: 1440
+                    expiresIn: "1d"
                   });
                   res.json({ email : user.email , token: token });
                 } else {

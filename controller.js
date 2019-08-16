@@ -8,6 +8,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./models/User')
+const Op = require('./database/db').Sequelize.Op;
 users.use(cors())
 
 process.env.SECRET_KEY = 'secret'
@@ -174,7 +175,11 @@ exports.profile = function(req, res){
 exports.createUser = async ({ name, password }) => { 
   return await User.create({ name, password });
 };
-
+exports.deleteUser = async (id) => { 
+  return await User.destroy({where: {id: id}})
+        .then(affectedRow => affectedRow)
+        .catch(error => console.log(error))
+};
 exports.getAllUsers = async () => {
   return await User.findAll();
 };
@@ -182,4 +187,24 @@ exports.getUser = async (obj) => {
     return await User.findOne({
     where: obj,
   });
+};
+exports.getUserByDate = async (obj) => {
+    const {start , end } = obj
+    return await User.findAll({
+        where: {
+              created: {
+                  [Op.between]: [start,end]
+                }
+        }
+      });
+};
+exports.updateUser = async (obj) => {
+    const { req } = obj
+    return await User.update({status: req.body.status , 
+                      level : req.body.level ,  
+                      last_name : req.body.last_name, 
+                      first_name : req.body.first_name},
+                     {returning: true, plain: true, where: {id: req.body.id} })
+                    .then(update => update)
+                    .catch(error => error)
 };
