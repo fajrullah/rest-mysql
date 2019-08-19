@@ -10,7 +10,7 @@ let passport = require('passport'),
     todoList = require('./controller'),
     jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = 'secret';
+jwtOptions.secretOrKey = '4sri';
 
 
 let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
@@ -42,8 +42,8 @@ module.exports = function(app) {
     // app.route('/login')
     // 	.post(todoList.authUsers);
 
-    // app.route('/profile')
-    // 	.get(todoList.profile);
+    app.route('/profile')
+    	.get(todoList.profile);
     // app.get('/userss', function(req, res) {
     //   todoList.getAllUsers().then(user => res.json(user)); 
     // });// register route
@@ -57,10 +57,13 @@ module.exports = function(app) {
     //     res.json({ msg: 'Congrats! You are seeing this because you are authorized'});
     // });
     app.delete('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
-        let user = await todoList.deleteUser(req.body.id).then(user => res.json(user)); 
+         await todoList.deleteUser(req.body.id).then(user => res.json(user)); 
     });
     app.put('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
-        let user = await todoList.updateUser({req}).then(user => res.json(user)); 
+         await todoList.updateUser({req}).then(user => res.json(user)); 
+    });
+    app.put('/password/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+         await todoList.updatePassword({req}).then(user => res.json(user)); 
     });
     app.route('/register')
       .post(todoList.register);
@@ -78,7 +81,7 @@ module.exports = function(app) {
     app.post('/user/createtime', passport.authenticate('jwt', { session: false }), async function(req, res) {
         const { start, end } = req.body;
         let user = await todoList.getUserByDate({ start, end });
-        res.json({ user });
+        res.json(user);
     });
 
     app.post('/login', async function(req, res, next) { 

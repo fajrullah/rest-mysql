@@ -11,7 +11,7 @@ const User = require('./models/User')
 const Op = require('./database/db').Sequelize.Op;
 users.use(cors())
 
-process.env.SECRET_KEY = 'secret'
+
 
 exports.users = function(req,res){
 	    connection.query('SELECT * FROM person', function (error, rows, fields){
@@ -110,7 +110,7 @@ exports.authUsers = function(req, res){
  jika ada perubahan bisa lakukan pada Kode ini */
 exports.register = function(req, res){
   const today = new Date()
-  console.log(req.body.email)
+
   const userData = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -153,23 +153,49 @@ exports.register = function(req, res){
 }
 
 exports.profile = function(req, res){
-  var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-
-  User.findOne({
-    where: {
-      id: decoded.id
+  const token = req.headers['authorization']
+  const secret = req.headers['secret']
+  jwt.verify(token, secret, function(err, decoded) {
+    if(err){
+      res.send({ status : 'off' ,  error : err})
+    }else{
+      User.findOne({
+        where: {
+          id: decoded.id
+        }
+      })
+        .then(user => {
+          if (user) {
+            res.send({status : 'on' , details : user})
+          } 
+        })
+        .catch(err => {
+          res.send({status : 'off' , details : err})
+        })
     }
-  })
-    .then(user => {
-      if (user) {
-        res.json(user)
-      } else {
-        res.send('User does not exist')
-      }
-    })
-    .catch(err => {
-      res.send('error: ' + err)
-    })
+  });
+  // jwt.verify(token, req.headers['secret'], function(err, decoded) {
+  //   if(decoded.id){
+  //     User.findOne({
+  //       where: {
+  //         id: decoded.id
+  //       }
+  //     })
+  //       .then(user => {
+  //         if (user) {
+  //           res.send({status : 'on' , details : user})
+  //         } 
+  //       })
+  //       .catch(err => {
+  //         res.send({status : 'off' , details : err})
+  //       })
+  //   }
+  //   if(err){
+  //     res.send({status : 'off' , error : err})
+  //   }
+
+  // });
+
 }
 
 exports.createUser = async ({ name, password }) => { 
@@ -207,4 +233,14 @@ exports.updateUser = async (obj) => {
                      {returning: true, plain: true, where: {id: req.body.id} })
                     .then(update => update)
                     .catch(error => error)
+};
+
+exports.updatePassword = async (obj) => {
+    const { req } = obj
+    return await bcrypt.hash(req.body.password, 10, (err, hash) => {
+          return User.update({password: hash},
+                     {returning: true, plain: true, where: {email: req.body.email} })
+                    .then(update => update)
+                    .catch(error => error)
+        })
 };
