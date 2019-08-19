@@ -11,7 +11,7 @@ const User = require('./models/User')
 const Op = require('./database/db').Sequelize.Op;
 users.use(cors())
 
-
+process.env.SECRET_KEY = '4sri'
 
 exports.users = function(req,res){
 	    connection.query('SELECT * FROM person', function (error, rows, fields){
