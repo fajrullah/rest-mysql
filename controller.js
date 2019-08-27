@@ -8,6 +8,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./models/User')
+const Kbli = require('./models/Kbli')
 const Op = require('./database/db').Sequelize.Op;
 users.use(cors())
 
@@ -208,6 +209,9 @@ exports.deleteUser = async (id) => {
 };
 exports.getAllUsers = async () => {
   return await User.findAll();
+};
+exports.getAllKbli = async () => {
+  return await Kbli.findAll();
 };
 exports.getUser = async (obj) => {
     return await User.findOne({

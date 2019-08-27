@@ -72,6 +72,10 @@ module.exports = function(app) {
         todoList.getAllUsers().then(user => res.json(user)); 
     });
 
+    app.get('/kbli', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        todoList.getAllKbli().then(kbli => res.json(kbli)); 
+    });
+
     app.post('/getUser', passport.authenticate('jwt', { session: false }), async function(req, res) {
         const { email } = req.body;
         let user = await todoList.getUser({ email });
