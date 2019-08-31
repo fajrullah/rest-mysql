@@ -62,6 +62,9 @@ module.exports = function(app) {
     app.put('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.updateUser({req}).then(user => res.json(user)); 
     });
+    app.put('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+         await todoList.updateKbli({req}).then(user => res.json(user)); 
+    });
     app.put('/password/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.updatePassword({req}).then(user => res.json(user)); 
     });

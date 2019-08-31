@@ -4,7 +4,12 @@ const db = require('../database/db.js')
 
 const Kbli = db.sequelize.define(
   'tbl_kbli',
-  {
+  { 
+    id_row: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },   
     level_1: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -31,6 +36,9 @@ const Kbli = db.sequelize.define(
     title: {
       type: Sequelize.STRING
     },
+    description: {
+      type: Sequelize.STRING
+    },
     createtime: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW
@@ -38,14 +46,6 @@ const Kbli = db.sequelize.define(
     updatetime: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW
-    },
-      id_row: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },    
-    description: {
-      type: Sequelize.STRING
     },
     price: {
       type: Sequelize.STRING

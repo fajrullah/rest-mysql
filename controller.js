@@ -228,6 +228,19 @@ exports.getUserByDate = async (obj) => {
         }
       });
 };
+
+exports.updateKbli = async (obj) => {
+    const { req } = obj
+    return await Kbli.update({
+                    price: JSON.stringify(req.body.price),
+                    title : req.body.title,
+                    description : req.body.description
+                        },
+                     {returning: true, plain: true, where: {id_row: req.body.id_row } })
+                    .then(update => update)
+                    .catch(error => error)
+};
+
 exports.updateUser = async (obj) => {
     const { req } = obj
     return await User.update({status: req.body.status , 
