@@ -202,6 +202,7 @@ exports.profile = function(req, res){
 exports.createUser = async ({ name, password }) => { 
   return await User.create({ name, password });
 };
+
 exports.deleteUser = async (id) => { 
   return await User.destroy({where: {id: id}})
         .then(affectedRow => affectedRow)
@@ -209,9 +210,6 @@ exports.deleteUser = async (id) => {
 };
 exports.getAllUsers = async () => {
   return await User.findAll();
-};
-exports.getAllKbli = async () => {
-  return await Kbli.findAll();
 };
 exports.getUser = async (obj) => {
     return await User.findOne({
@@ -228,19 +226,6 @@ exports.getUserByDate = async (obj) => {
         }
       });
 };
-
-exports.updateKbli = async (obj) => {
-    const { req } = obj
-    return await Kbli.update({
-                    price: JSON.stringify(req.body.price),
-                    title : req.body.title,
-                    description : req.body.description
-                        },
-                     {returning: true, plain: true, where: {id_row: req.body.id_row } })
-                    .then(update => update)
-                    .catch(error => error)
-};
-
 exports.updateUser = async (obj) => {
     const { req } = obj
     return await User.update({status: req.body.status , 
@@ -260,4 +245,26 @@ exports.updatePassword = async (obj) => {
                     .then(update => update)
                     .catch(error => error)
         })
+};
+
+exports.getAllKbli = async () => {
+  return await Kbli.findAll();
+};
+
+exports.createKbli = async (obj) => { 
+    const { req } = obj
+    const { body } = req
+    return await Kbli.create(body);
+};
+
+exports.updateKbli = async (obj) => {
+    const { req } = obj
+    return await Kbli.update({
+                    price: JSON.stringify(req.body.price),
+                    title : req.body.title,
+                    description : req.body.description
+                        },
+                     {returning: true, plain: true, where: {id_row: req.body.id_row } })
+                    .then(update => update)
+                    .catch(error => error)
 };

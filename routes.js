@@ -56,14 +56,22 @@ module.exports = function(app) {
     // app.get('/protected', passport.authenticate('jwt', { session: false }), function(req, res) {
     //     res.json({ msg: 'Congrats! You are seeing this because you are authorized'});
     // });
+
+    app.post('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+         await todoList.createKbli({req}).then(user => res.json(user)).catch(err => res.json(err.errors)); 
+    });
+    app.put('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+         await todoList.updateKbli({req}).then(user => res.json(user)).catch(err => console.log(err)); 
+    });
+    app.get('/kbli', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        todoList.getAllKbli().then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+    });
+
     app.delete('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.deleteUser(req.body.id).then(user => res.json(user)); 
     });
     app.put('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.updateUser({req}).then(user => res.json(user)); 
-    });
-    app.put('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
-         await todoList.updateKbli({req}).then(user => res.json(user)); 
     });
     app.put('/password/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.updatePassword({req}).then(user => res.json(user)); 
@@ -74,11 +82,6 @@ module.exports = function(app) {
     app.get('/user', passport.authenticate('jwt', { session: false }), async function(req, res) {
         todoList.getAllUsers().then(user => res.json(user)); 
     });
-
-    app.get('/kbli', passport.authenticate('jwt', { session: false }), async function(req, res) {
-        todoList.getAllKbli().then(kbli => res.json(kbli)); 
-    });
-
     app.post('/getUser', passport.authenticate('jwt', { session: false }), async function(req, res) {
         const { email } = req.body;
         let user = await todoList.getUser({ email });
