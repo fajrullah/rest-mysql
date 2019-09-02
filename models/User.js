@@ -45,7 +45,7 @@ User.prototype.toJSON =  function () {
 }
 
 User.sync()
-  .then(() => console.log('‘Oh yeah! User table created successfully’'))
+  .then(() => console.log('User'))
   .catch(err => console.log('‘BTW, did you enter wrong database credentials?’'));
 
   

@@ -58,7 +58,7 @@ const Kbli = db.sequelize.define(
 )
 module.exports = Kbli
 Kbli.sync()
-  .then(() => console.log('‘Kbli’'))
+  .then(() => console.log('Kbli'))
   .catch(err => console.log('‘error credential or something’'));
 
   

@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./models/User')
 const Kbli = require('./models/Kbli')
+const Level = require('./models/Level')
 const Op = require('./database/db').Sequelize.Op;
 users.use(cors())
 
@@ -265,6 +266,23 @@ exports.updateKbli = async (obj) => {
                     description : req.body.description
                         },
                      {returning: true, plain: true, where: {id_row: req.body.id_row } })
+                    .then(update => update)
+                    .catch(error => error)
+};
+
+exports.getAllLevel = async () => {
+  return await Level.findAll();
+};
+exports.createLevel = async (obj) => { 
+    const { req } = obj
+    const { body } = req
+    console.log(body)
+    return await Level.create(body);
+};
+exports.updateLevel = async (obj) => {
+    const { req } = obj
+    return await Level.update({year : req.body.year},
+                     {returning: true, plain: true, where: {id: req.body.id } })
                     .then(update => update)
                     .catch(error => error)
 };
