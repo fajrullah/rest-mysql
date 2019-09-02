@@ -209,6 +209,7 @@ exports.deleteUser = async (id) => {
         .then(affectedRow => affectedRow)
         .catch(error => console.log(error))
 };
+
 exports.getAllUsers = async () => {
   return await User.findAll();
 };
@@ -248,6 +249,13 @@ exports.updatePassword = async (obj) => {
         })
 };
 
+exports.getAllKbliByLevel = async (obj) => {
+  console.log(obj)
+  return await Kbli.findAll({
+    where: obj,
+  });
+};
+
 exports.getAllKbli = async () => {
   return await Kbli.findAll();
 };
@@ -269,6 +277,11 @@ exports.updateKbli = async (obj) => {
                     .then(update => update)
                     .catch(error => error)
 };
+exports.deleteKbli = async (id) => { 
+  return await Kbli.destroy({where: {id_row: id}})
+        .then(affectedRow => affectedRow)
+        .catch(error => console.log(error))
+};
 
 exports.getAllLevel = async () => {
   return await Level.findAll();
@@ -276,7 +289,6 @@ exports.getAllLevel = async () => {
 exports.createLevel = async (obj) => { 
     const { req } = obj
     const { body } = req
-    console.log(body)
     return await Level.create(body);
 };
 exports.updateLevel = async (obj) => {

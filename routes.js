@@ -76,6 +76,31 @@ module.exports = function(app) {
         todoList.getAllKbli().then(kbli => res.json(kbli)).catch(err => console.log(err)); 
     });
 
+    app.post('/kbliByLevel', passport.authenticate('jwt', { session: false }), async function(req, res) {
+        if(req.body.level === '1'){
+          const { level_1 , level, ...rest} = req.body
+          todoList.getAllKbliByLevel({...rest}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+        }
+        if(req.body.level === '2'){
+          const { level_1 , level, level_2 , ...rest} = req.body
+          todoList.getAllKbliByLevel({...rest}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+        }
+        if(req.body.level === '3'){
+          const { level_1 , level,  level_2 , level_3 , ...rest} = req.body
+          todoList.getAllKbliByLevel({...rest}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+        }
+        if(req.body.level === '4'){
+          const { level_1 , level,  level_2 , level_3 ,level_4 , ...rest} = req.body
+          todoList.getAllKbliByLevel({...rest}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+        }
+
+       
+    });
+
+    app.delete('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+         await todoList.deleteKbli(req.body.id).then(user => res.json(user)); 
+    });
+
     app.delete('/user/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.deleteUser(req.body.id).then(user => res.json(user)); 
     });
