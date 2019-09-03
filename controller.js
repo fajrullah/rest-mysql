@@ -250,9 +250,18 @@ exports.updatePassword = async (obj) => {
 };
 
 exports.getAllKbliByLevel = async (obj) => {
-  console.log(obj)
   return await Kbli.findAll({
     where: obj,
+  });
+};
+
+exports.getAllKbligte = async (obj) => {
+  const  { param , ...rest} = obj
+  return await Kbli.findAll({
+    where: [{
+            [param]: {
+                    [Op.gte]: 1 },
+          }, {...rest}]
   });
 };
 

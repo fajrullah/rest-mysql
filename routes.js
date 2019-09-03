@@ -78,7 +78,11 @@ module.exports = function(app) {
     app.get('/kbliByLevel/one', passport.authenticate('jwt', { session: false }), async function(req, res) {
           todoList.getAllKbliByLevel({ level_2 : 0 , level_3 : 0 , level_4 : 0 , level_5 : 0}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
     });
-
+    app.post('/kbliByLevel/custom', passport.authenticate('jwt', { session: false }), async function(req, res) {
+      const { param , ...rest } = req.body
+          todoList.getAllKbligte({ param, ...rest}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+    });
+   
     app.delete('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.deleteKbli(req.body.id).then(user => res.json(user)); 
     });
