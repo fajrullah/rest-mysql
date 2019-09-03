@@ -255,6 +255,14 @@ exports.getAllKbliByLevel = async (obj) => {
   });
 };
 
+exports.getAllKbliLast = async (obj) => {
+  return await Kbli.findAll({
+    limit: 1,
+    where: obj,
+    order: [ [ 'level_1', 'DESC' ]]
+  }); 
+};
+
 exports.getAllKbligte = async (obj) => {
   const  { param , ...rest} = obj
   return await Kbli.findAll({
