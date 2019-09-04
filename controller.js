@@ -285,6 +285,26 @@ exports.getAllKbliLastThree = async (obj) => {
   }); 
 };
 
+exports.getAllKbliLastFour = async (obj) => {
+  const { req } = obj
+  const { body } = req
+  return await Kbli.findAll({
+    limit: 1,
+    where: body,
+    order: [ [ 'level_4', 'DESC' ]]
+  }); 
+};
+
+exports.getAllKbliLastFive = async (obj) => {
+  const { req } = obj
+  const { body } = req
+  return await Kbli.findAll({
+    limit: 1,
+    where: body,
+    order: [ [ 'level_5', 'DESC' ]]
+  }); 
+};
+
 exports.getAllKbligte = async (obj) => {
   const  { param , ...rest} = obj
   return await Kbli.findAll({
