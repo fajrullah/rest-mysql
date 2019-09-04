@@ -256,7 +256,8 @@ exports.getAllKbliByLevel = async (obj) => {
 };
 
 exports.getAllKbliLast = async (obj) => {
-  const { body } = obj
+  const { req } = obj
+  const { body } = req
   return await Kbli.findAll({
     limit: 1,
     where: body,
@@ -265,11 +266,22 @@ exports.getAllKbliLast = async (obj) => {
 };
 
 exports.getAllKbliLastTwo = async (obj) => {
-  const { body } = obj
+  const { req } = obj
+  const { body } = req
   return await Kbli.findAll({
     limit: 1,
     where: body,
     order: [ [ 'level_2', 'DESC' ]]
+  }); 
+};
+
+exports.getAllKbliLastThree = async (obj) => {
+  const { req } = obj
+  const { body } = req
+  return await Kbli.findAll({
+    limit: 1,
+    where: body,
+    order: [ [ 'level_3', 'DESC' ]]
   }); 
 };
 
