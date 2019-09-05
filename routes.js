@@ -66,6 +66,9 @@ module.exports = function(app) {
         todoList.getAllLevel().then(kbli => res.json(kbli)).catch(err => console.log(err)); 
     });
 
+    app.post('/kbli/sps', passport.authenticate('jwt', { session: false }), async function(req, res) {
+         await todoList.getKbliSpecific({req}).then(user => res.json(user)).catch(err => res.json(err.errors)); 
+    });
     app.post('/kbli/', passport.authenticate('jwt', { session: false }), async function(req, res) {
          await todoList.createKbli({req}).then(user => res.json(user)).catch(err => res.json(err.errors)); 
     });

@@ -319,6 +319,16 @@ exports.getAllKbli = async () => {
   return await Kbli.findAll();
 };
 
+exports.getKbliSpecific = async (obj) => {
+    const { req } = obj
+    const { body } = req
+    console.log(body)
+    return await Kbli.findOne({
+      where: body,
+      order: [ [ 'level_1', 'ASC' ]]
+    }); 
+};
+
 exports.createKbli = async (obj) => { 
     const { req } = obj
     const { body } = req
