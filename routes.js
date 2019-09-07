@@ -96,6 +96,10 @@ module.exports = function(app) {
     app.get('/kbliByLevel/one', passport.authenticate('jwt', { session: false }), async function(req, res) {
           todoList.getAllKbliByLevel({ level_2 : 0 , level_3 : 0 , level_4 : 0 , level_5 : 0}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
     });
+    app.post('/kbli/row', passport.authenticate('jwt', { session: false }), async function(req, res) {
+          const { body } = req
+          todoList.getAllKbliByLevel(body).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
+    });
     app.post('/kbliByLevel/custom', passport.authenticate('jwt', { session: false }), async function(req, res) {
       const { param , ...rest } = req.body
           todoList.getAllKbligte({ param, ...rest}).then(kbli => res.json(kbli)).catch(err => console.log(err)); 
