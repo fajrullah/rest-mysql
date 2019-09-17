@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = {}
-const sequelize = new Sequelize('kbli', 'root', '', {
-  host: 'localhost',
+const sequelize = new Sequelize('kRwrS3PkTu', 'kRwrS3PkTu', '8B7fTEyYid', {
+  host: 'remotemysql.com',
   dialect: 'mysql',
   pool: {
     max: 5,
