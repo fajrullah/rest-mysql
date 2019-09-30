@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = {}
-const sequelize = new Sequelize('kRwrS3PkTu', 'kRwrS3PkTu', '8B7fTEyYid', {
+//below sequence, DB, username, password
+const sequelize = new Sequelize('asd', 'kRwrS3PkTu', '8B7fTEyYid', {
   host: 'remotemysql.com',
   dialect: 'mysql',
   pool: {

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+        rest:
+                image: rest-mysql-image
+                container_name: rest-mysql-production
+                build:
+                        context: .
+                        dockerfile: Dockerfile
+                volumes:
+                        - '.:/restmysql'
+                        - '/restmysql/node_modules'
+                ports:
+                        - '127.0.0.1:6455:4000'
+                environment: 
+                        - NODE_ENV=production
+                tty: true
